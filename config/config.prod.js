@@ -1,1 +1,4 @@
-config.prod.js
+'use strict';
+
+module.exports = {}
+;

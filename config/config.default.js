@@ -12,8 +12,8 @@ module.exports = appInfo => {
 
   // 暂时关闭csrf
   exports.security = {
-    csrf: false
-  }
+    csrf: false,
+  };
   // add your config here
   config.middleware = [];
 
