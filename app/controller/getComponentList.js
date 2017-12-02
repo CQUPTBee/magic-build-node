@@ -8,7 +8,6 @@ class getList extends Controller {
     const ctx = this.ctx;
     const cid = ctx.params.id;
     const cdata = await ctx.service.getData.find(cid);
-    console.log(cdata)
     ctx.response.body = cdata;
   }
 }
