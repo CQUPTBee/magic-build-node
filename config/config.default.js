@@ -10,6 +10,10 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1512030452306_1643';
 
+  // 暂时关闭csrf
+  exports.security = {
+    csrf: false,
+  };
   // add your config here
   config.middleware = [];
 

@@ -6,6 +6,8 @@
 module.exports = app => {
   const { router, controller } = app;
   router.get('/', controller.home.index);
-  router.get('/getComponentList/:id', controller.getComponentList.componentList);
-  router.post('/sendComponentData', controller.sendComponentData.create);
+
+
+  router.get('/api/componentList/:id', controller.api.componentList.get);
+  router.post('/api/componentList/', controller.api.componentList.create);
 };
