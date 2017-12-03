@@ -9,6 +9,7 @@ yarn.lock
 
 
 .idea/
+.vscode
 
 run/
 coverage/
