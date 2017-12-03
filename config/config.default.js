@@ -1,27 +1,27 @@
 'use strict';
+const path = require('path');
+const pkg = require('../package.json');
 
-module.exports = appInfo => {
-  const config = exports = {
-    name: 'magicBuildNode',
-    baseDur: 'E:\Server\magicBuildNode',
-    root: '',
-  };
+module.exports = {
+  name: pkg.name,
+  baseDir: path.resolve(__dirname, '../'),
 
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1512030452306_1643';
+  keys: pkg.name + '_1512030452306_1643',
 
-  // 暂时关闭csrf
-  exports.security = {
+  security: {
     csrf: false,
-  };
+  },
   // add your config here
-  config.middleware = [];
+  middleware: [],
 
   // 改变jsonwenjianneicun大小
-  config.bodyParser = {
+  bodyParser: {
     jsonLimit: '1mb',
     formLimit: '1mb',
-  };
+  },
 
-  return config;
+  db: {
+    dir: path.resolve(__dirname, '../', 'app/db'), // 本地开发、测试环境 json 数据目录
+  },
 };

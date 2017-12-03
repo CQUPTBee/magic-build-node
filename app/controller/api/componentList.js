@@ -10,8 +10,9 @@ class ComponentListController extends BaseController {
   async get() {
     const ctx = this.ctx;
     const cid = ctx.params.id;
+    if (cid === undefined || cid === '') this.notFound('未定义ID');
     const cdata = await ctx.service.componentList.get(cid);
-    ctx.response.body = cdata;
+    this.success(cdata);
   }
 
   async create() {
