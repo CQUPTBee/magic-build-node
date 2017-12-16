@@ -15,12 +15,17 @@ class ComponentListController extends BaseController {
     this.success(cdata);
   }
 
+
+  /**
+   * @desc 接收组件数据
+   */
   async create() {
     const {
       ctx,
       service,
     } = this;
     const req = Object.assign(ctx.request.body);
+    console.log('req type:', typeof req);
     // 调用Service 进行业务处理
     const res = await service.componentList.create(req);
     this.success(res);
