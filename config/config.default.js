@@ -25,11 +25,6 @@ module.exports = {
     dir: path.resolve(__dirname, '../', 'app/db'), // 本地开发、测试环境 json 数据目录
   },
 
-  // 启用view插件
-  nunjucks: {
-    enable: true,
-    package: 'egg-view-nunjucks',
-  },
 
   // 配置插件
   view: {
@@ -39,8 +34,15 @@ module.exports = {
       '.nj': 'nunjucks',
     },
     root: [
-      path.join(appInfo.baseDir, 'app/view'),
-      path.join(appInfo.baseDir, 'path/to/another'),
+      path.join(__dirname, 'app/view'), 
     ].join(',')
   },
+
+  // view: {
+  //   defaultViewEngine: 'handlebars',
+  //   defaultExtension: '.hbs',
+  //   mapping: {
+  //     '.hbs': 'handlebars',
+  //   },
+  // },
 };

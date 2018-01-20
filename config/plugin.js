@@ -1,4 +1,16 @@
 'use strict';
 
 // had enabled by egg
-// exports.static = true;
+module.exports = {
+  static: true,
+  // 启用view插件
+  nunjucks: {
+    enable: true,
+    package: 'egg-view-nunjucks',
+  },
+
+  // handlebars: {
+  //   enable: true,
+  //   package: 'egg-view-handlebars',
+  // }
+};

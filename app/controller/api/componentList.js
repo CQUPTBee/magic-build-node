@@ -5,7 +5,7 @@ const BaseController = require('../../core/baseController');
 
 class ComponentListController extends BaseController {
   /**
-   * @desc 获取组件
+   * @desc 获取组件数据
    */
   async get() {
     const ctx = this.ctx;

@@ -1,5 +1,6 @@
 'use strict';
 
+const clone = require('git-clone');
 const Service = require('egg').Service;
 const fs = require('fs');
 const path = require('path');
@@ -19,10 +20,29 @@ class ComponentListService extends Service {
     const id = uuidv1();
     const fileName = path.resolve(this.config.db.dir, `${id}.json`);
     await writeFile(fileName, JSON.stringify(req), 'utf-8');
-    const result = {
-      id,
-    };
-    return result;
+
+    // 从coding clone项目代码
+    const repo = 'git@github.com:CQUPTBee/magic-page.git';
+    const targetPath = path.resolve(this.config.baseDir, '', 'app/public/modules');
+    console.log('targetPath', targetPath);
+    clone(repo, targetPath, err => {
+      cosnsole('err', err);
+    });
+
+    (function () {
+      var childProcess = require("child_process");
+      var oldSpawn = childProcess.spawn;
+      function mySpawn() {
+        console.log('spawn called');
+        console.log(arguments);
+        var result = oldSpawn.apply(this, arguments);
+        return result;
+      }
+      childProcess.spawn = mySpawn;
+    })();
+    
+    const url = 'http://www.karenhoo/' + `${req.title}.html`
+    return url;
   }
 }
 
