@@ -9,15 +9,15 @@ class ComponentListController extends BaseController {
    */
   async get() {
     const ctx = this.ctx;
+    console.log('ctx', ctx);
     const cid = ctx.params.id;
     if (cid === undefined || cid === '') this.notFound('未定义ID');
     const cdata = await ctx.service.componentList.get(cid);
     this.success(cdata);
   }
 
-
   /**
-   * @desc 接收组件数据
+   * @desc 接收组件数据,拉去模板组装，生成完整页面，返回页面url
    */
   async create() {
     const {
@@ -28,8 +28,13 @@ class ComponentListController extends BaseController {
     console.log('req type:', typeof req);
     // 调用Service 进行业务处理
     const res = await service.componentList.create(req);
-    this.success(res);
+    console.log('service-res', res);
+    const url = `${req.title}.html`;
+    console.log('url:', url);
+    this.success(url);
+    
   }
+
 }
 
 module.exports = ComponentListController;

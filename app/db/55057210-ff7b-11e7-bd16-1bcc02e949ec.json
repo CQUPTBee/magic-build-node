@@ -1,0 +1,1 @@
+{"name":"topHeader","title":"banner","data":{"listTitle":"node测试数据","bannerList":[{"title":"提前祝大家元旦搬砖快乐","href":"http://www.campussay.com","imgUrl":"http://pic.58pic.com/images/everygg/5a307be999ecd.jpg"}]},"helpers":{"test":"export default  (data) => {\n  return `${data} test`\n}"}}

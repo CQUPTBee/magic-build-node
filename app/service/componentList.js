@@ -8,6 +8,7 @@ const uuidv1 = require('uuid/v1');
 const util = require('util');
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
+const Handlebars = require('handlebars');
 
 class ComponentListService extends Service {
   async get(id) {
@@ -16,33 +17,113 @@ class ComponentListService extends Service {
     return result;
   }
 
+	/**
+	 * @desc 组装模板和数据，生成html文件
+	 */
   async create(req) {
-    const id = uuidv1();
+		const id = uuidv1();
+		// 将获取的数据存为json文件
     const fileName = path.resolve(this.config.db.dir, `${id}.json`);
     await writeFile(fileName, JSON.stringify(req), 'utf-8');
 
-    // 从coding clone项目代码
-    const repo = 'git@github.com:CQUPTBee/magic-page.git';
-    const targetPath = path.resolve(this.config.baseDir, '', 'app/public/modules');
-    console.log('targetPath', targetPath);
-    clone(repo, targetPath, err => {
-      cosnsole('err', err);
-    });
+		// 生成模板文件夹
+		let folder = fs.mkdirSync('app/public/modules/' + `${req.title}`);
+		console.log('folder:', folder);
 
-    (function () {
-      var childProcess = require("child_process");
-      var oldSpawn = childProcess.spawn;
-      function mySpawn() {
-        console.log('spawn called');
-        console.log(arguments);
-        var result = oldSpawn.apply(this, arguments);
-        return result;
-      }
-      childProcess.spawn = mySpawn;
-    })();
-    
-    const url = 'http://www.karenhoo/' + `${req.title}.html`
-    return url;
+		// clone仓库链接
+		let repo = 'git@git.coding.net:liangbijie02/magic-build.git';
+
+		// clone代码存放的目标文件
+    let targetPath = path.resolve(this.config.baseDir, '', 'app/public/modules/' + `${req.title}` + '/');
+		console.log('targetPath', targetPath);
+		
+		// 从coding clone模板代码
+		clone(repo, targetPath, res => {
+			// 获取模板和默认数据路径
+      let modFile = path.resolve(this.config.tplFile.dir, '', `${req.title}` + '/src/components/modsList/banner/src/build/index.hbs')
+			let dataFile = path.resolve(this.config.tplFile.dir, '', `${req.title}` + '/src/components/modsList/banner/src/build/data.json')
+			let helperFile = path.resolve(this.config.tplFile.dir, '', `${req.title}` + '/src/components/modsList/banner/src/build/helpers') 
+			
+			// console.log('modFile:', modFile);
+			// console.log('dataFile:', dataFile);
+			// console.log('helperFile', helperFile)
+			// console.log('----------------------')
+			// let banner = fs.readFileSync(modFile, 'utf-8');
+			// let data = fs.readFileSync(dataFile, 'utf-8');
+			// let helperName = fs.readdirSync(helperFile,'utf-8')
+			
+			
+			// 同步读取模板代码和数据
+			let banner = fs.readFileSync('app/view/index.hbs', 'utf-8');
+			let data = fs.readFileSync('app/db/2a2ab240-ff2a-11e7-b831-71aedbb190d2.json', 'utf-8');
+			console.log('banner', banner);
+			console.log('----------------------')			
+			console.log('data:', typeof data)
+			console.log('----------------------')			
+			// console.log('helperName:', helperName)
+			// console.log('----------------------')			
+			// Handlebars.registerHelper(helperName)
+			// console.log('registerHelper(helperName)', Handlebars.registerHelper(helperName))
+
+			// 将hbs解析，并填入数据
+			let tpl = Handlebars.compile(banner);
+			console.log('tpl:')
+			console.log(tpl)
+			console.log('data:', JSON.parse(data))
+			let template = tpl(JSON.parse(data));
+			console.log('---------------template------------------');
+			console.log(template);
+			console.log('template type:', typeof template);
+			console.log('---------------template------------------');
+
+			// 组装公共头部
+			let header = `
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+					<title>${req.title}</title>
+					
+					<link rel="stylesheet" href="https://cdn.staticfile.org/minireset.css/0.0.2/minireset.css">
+					<style>
+						body {
+								width: 7.5rem;
+								background: #dddddd;
+						}
+						.serverHeaer {
+								font-size: .30rem;
+						}
+						.serverFooter {
+								font-size: .30rem;
+						}
+					</style>
+					<script>
+						(function () {
+							window.resetRem = window.resetRem || function () {
+								document.documentElement.style.fontSize = (100 * window.document.documentElement.getBoundingClientRect().width / 750) + 'px'
+							}
+							window.removeEventListener('resize', window.resetRem)
+							window.addEventListener('resize', window.resetRem)
+							window.resetRem()
+						})()
+					</script>
+    			<script src="http://cdn.staticfile.org/zepto/1.2.0/zepto.min.js"></script>
+				</head>
+				<body>
+						<h1 class="serverHeaer">这里是服务器环境头部</h1>
+						<ul id="modsWrap">
+						`;
+				let bottom = `</ul>
+						<h1 class="serverFooter">这里是服务器环境底部</h1>`
+				let	jsFile =	`<script src="../modules/banner/src/components/modsList/banner/src/build/main.bundle.js"></script>`
+				let footer = `	</body>
+				</html>`;
+			const page = header + template + bottom + jsFile + footer;
+			// 生成完整的html页面
+			writeFile('app/public/page/' + `${req.title}.html`, page, 'utf-8');
+
+	 }); 			
+
   }
 }
 

@@ -9,7 +9,9 @@
     "egg-view-handlebars": "^2.0.0",
     "egg-view-nunjucks": "^2.1.4",
     "git-clone": "^0.1.0",
-    "uuid": "^3.1.0"
+    "handlebars": "^4.0.11",
+    "uuid": "^3.1.0",
+    "zepto": "^1.2.0"
   },
   "devDependencies": {
     "autod": "^3.0.1",
