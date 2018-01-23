@@ -8,7 +8,8 @@ class ModList extends BaseController {
       ctx,
       service,
     } = this;
-    const res = await service.modList.render();
+    const req = Object.assign(ctx.request.body);
+    const res = await service.modList.render(req);
     ctx.body = res;
   }
 }
