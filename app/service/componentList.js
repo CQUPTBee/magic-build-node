@@ -23,6 +23,7 @@ class ComponentListService extends Service {
   async create(req) {
 		const id = uuidv1();
 		// 将获取的数据存为json文件
+		console.log('req-tyep:', typeof req)
     const fileName = path.resolve(this.config.db.dir, `${id}.json`);
     await writeFile(fileName, JSON.stringify(req), 'utf-8');
 
@@ -55,10 +56,10 @@ class ComponentListService extends Service {
 			
 			// 同步读取模板代码和数据
 			let banner = fs.readFileSync('app/view/index.hbs', 'utf-8');
-			let data = fs.readFileSync('app/db/2a2ab240-ff2a-11e7-b831-71aedbb190d2.json', 'utf-8');
-			console.log('banner', banner);
+			let data = req;
+			console.log('banner-type', typeof banner);
 			console.log('----------------------')			
-			console.log('data:', typeof data)
+			console.log('data-type:', typeof data)
 			console.log('----------------------')			
 			// console.log('helperName:', helperName)
 			// console.log('----------------------')			
@@ -69,8 +70,8 @@ class ComponentListService extends Service {
 			let tpl = Handlebars.compile(banner);
 			console.log('tpl:')
 			console.log(tpl)
-			console.log('data:', JSON.parse(data))
-			let template = tpl(JSON.parse(data));
+			console.log('data:', data)
+			let template = tpl(data);
 			console.log('---------------template------------------');
 			console.log(template);
 			console.log('template type:', typeof template);

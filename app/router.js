@@ -10,5 +10,5 @@ module.exports = app => {
 
   router.get('/api/componentList/:id', controller.api.componentList.get);
   router.post('/api/componentList/', controller.api.componentList.create); 
-  router.get('/api/render/', controller.api.render.render);
+  router.post('/api/modList/', controller.api.modList.render);
 };
