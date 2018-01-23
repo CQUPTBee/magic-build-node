@@ -27,6 +27,14 @@ class ComponentListService extends Service {
     const fileName = path.resolve(this.config.db.dir, `${id}.json`);
     await writeFile(fileName, JSON.stringify(req), 'utf-8');
 
+		let modFolder = fs.readdirSync('app/public/modules');
+		console.log('modFolder:', modFolder);
+
+		if (modFolder.includes(`${req.title}`)) {
+			console.log('模板已存在');
+		}else {
+
+	
 		// 生成模板文件夹
 		let folder = fs.mkdirSync('app/public/modules/' + `${req.title}`);
 		console.log('folder:', folder);
@@ -124,7 +132,7 @@ class ComponentListService extends Service {
 			writeFile('app/public/page/' + `${req.title}.html`, page, 'utf-8');
 
 	 }); 			
-
+		}
   }
 }
 
