@@ -29,9 +29,7 @@ class ComponentListController extends BaseController {
     // 调用Service 进行业务处理
     const res = await service.componentList.create(req);
     console.log('service-res', res);
-    const url = `${req.title}.html`;
-    console.log('url:', url);
-    this.success(url);
+    this.success(res);
     
   }
 

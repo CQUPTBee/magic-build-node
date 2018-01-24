@@ -8,6 +8,7 @@
     "egg-scripts": "^2.1.0",
     "egg-view-handlebars": "^2.0.0",
     "egg-view-nunjucks": "^2.1.4",
+    "fs-extra": "^5.0.0",
     "git-clone": "^0.1.0",
     "handlebars": "^4.0.11",
     "uuid": "^3.1.0",

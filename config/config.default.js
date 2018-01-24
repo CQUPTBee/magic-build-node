@@ -22,12 +22,12 @@ module.exports = {
   },
 
   db: {
-    dir: path.resolve(__dirname, '../', 'app/db'), // 本地开发、测试环境 json 数据目录
+    dir: path.resolve(__dirname, '../', 'app/db/'), // 本地开发、测试环境 json 数据目录
   },
 
   // 模板文件
   tplFile: {
-    dir: path.resolve(__dirname, '../', 'app/public/modules'),
+    dir: path.resolve(__dirname, '../', 'app/public/modules/'),
   },
 
 

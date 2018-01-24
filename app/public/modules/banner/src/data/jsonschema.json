@@ -1,0 +1,61 @@
+{
+  "title": "banner",
+  "type": "object",
+  "description": "为了跑通所有流程",
+  "properties": {
+    "listTitle1": {
+      "title": "轮播题目1",
+      "val": "",
+      "maxlength": 10,
+      "required": "true",
+      "name": "listTitle",
+      "type": "string"
+    },
+    "listTitle2": {
+      "title": "轮播速度",
+      "maximum": 3000,
+      "minimum": 1000,
+      "val": "",
+      "name": "listTitle",
+      "type": "number"
+    },
+    "bannerList": {
+      "title": "banner信息",
+      "desc":"填写关于轮播内容的相关信息",
+      "val": "",
+      "name": "bannerList",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "title": "单个banner信息",
+        "properties": {
+          "href": {
+            "title": "跳转链接",
+            "desc":"点击图片后跳转网页的地址链接",
+            "maxlength": 30,
+            "val": "",
+            "name": "href",
+            "required": "true",
+            "type": "string"
+          },
+          "imgUrl": {
+            "title": "图片链接",
+            "desc":"轮播显示的图片的链接",
+            "val": "",
+            "name": "imgUrl",
+            "type": "string"
+          },
+          "title": {
+            "title": "banner相关文字",
+            "desc":"轮播图片中对应显示的文字",
+            "val": "",
+            "name": "title",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

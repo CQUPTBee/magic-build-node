@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    {{!-- <link rel="stylesheet" type="text/css" href="http://cdn.staticfile.org/normalize/6.0.0/normalize.css"> --}}
+    <link rel="stylesheet" href="https://cdn.staticfile.org/minireset.css/0.0.2/minireset.css">
+    <script>
+      (function () {
+        window.resetRem = window.resetRem || function () {
+          document.documentElement.style.fontSize = (100 * window.document.documentElement.getBoundingClientRect().width / 750) + 'px'
+        }
+        window.removeEventListener('resize', window.resetRem)
+        window.addEventListener('resize', window.resetRem)
+        window.resetRem()
+      })()
+    </script>
+    {{!-- 统一使用七牛云公共CDN(https://www.staticfile.org/) --}}
+    <script src="http://cdn.staticfile.org/zepto/1.2.0/zepto.min.js"></script>
+  </head>
+  <body>
+      <h1 class="serverHeaer">这里是服务器环境头部</h1>
+      <ul id="modsWrap">
+        
+      </ul>
+      <h1 class="serverFooter">这里是服务器环境底部</h1>
+  </body>
+</html>

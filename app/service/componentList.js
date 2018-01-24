@@ -17,8 +17,9 @@ class ComponentListService extends Service {
     return result;
   }
 
-	/**
+	/** 
 	 * @desc 组装模板和数据，生成html文件
+	 * 
 	 */
   async create(req) {
 		const id = uuidv1();
@@ -33,42 +34,44 @@ class ComponentListService extends Service {
 		if (modFolder.includes(`${req.title}`)) {
 			console.log('模板已存在');
 		}else {
-
-	
-		// 生成模板文件夹
-		let folder = fs.mkdirSync('app/public/modules/' + `${req.title}`);
-		console.log('folder:', folder);
-
-		// clone仓库链接
-		let repo = 'git@git.coding.net:liangbijie02/magic-build.git';
-
-		// clone代码存放的目标文件
-    let targetPath = path.resolve(this.config.baseDir, '', 'app/public/modules/' + `${req.title}` + '/');
-		console.log('targetPath', targetPath);
 		
-		// 从coding clone模板代码
-		clone(repo, targetPath, res => {
-			// 获取模板和默认数据路径
-      let modFile = path.resolve(this.config.tplFile.dir, '', `${req.title}` + '/src/components/modsList/banner/src/build/index.hbs')
-			let dataFile = path.resolve(this.config.tplFile.dir, '', `${req.title}` + '/src/components/modsList/banner/src/build/data.json')
-			let helperFile = path.resolve(this.config.tplFile.dir, '', `${req.title}` + '/src/components/modsList/banner/src/build/helpers') 
+			// // 生成模板文件夹
+			// let folder = fs.mkdirSync('app/public/modules/' + `${req.title}`);
+			// console.log('folder:', folder);
+
+			// // clone仓库链接
+			// let repo = 'git@git.coding.net:liangbijie02/magic-build.git';
+
+			// // clone代码存放的目标文件
+			// let targetPath = path.resolve(this.config.baseDir, '', 'app/public/modules/' + `${req.title}` + '/');
+			// console.log('targetPath', targetPath);
 			
+			// // 从coding clone模板代码
+			// clone(repo, targetPath, res => { }); 
+		}
+
+			// 获取模板和默认数据路径
+			let modFile = path.resolve(this.config.tplFile.dir, '', `${req.title}` + '/src/build/index.hbs')
+			console.log('modFile:', modFile);
+			let helperFile = path.resolve(this.config.tplFile.dir, '', `${req.title}` + '/src/build/helpers')
+
 			// console.log('modFile:', modFile);
 			// console.log('dataFile:', dataFile);
 			// console.log('helperFile', helperFile)
 			// console.log('----------------------')
-			// let banner = fs.readFileSync(modFile, 'utf-8');
+			
+			let banner = fs.readFileSync(modFile, 'utf-8');
 			// let data = fs.readFileSync(dataFile, 'utf-8');
 			// let helperName = fs.readdirSync(helperFile,'utf-8')
-			
-			
+
+
 			// 同步读取模板代码和数据
-			let banner = fs.readFileSync('app/view/index.hbs', 'utf-8');
+			// let banner = fs.readFileSync('app/public/modules/' + ``, 'utf-8');
 			let data = req;
 			console.log('banner-type', typeof banner);
-			console.log('----------------------')			
+			console.log('----------------------')
 			console.log('data-type:', typeof data)
-			console.log('----------------------')			
+			console.log('----------------------')
 			// console.log('helperName:', helperName)
 			// console.log('----------------------')			
 			// Handlebars.registerHelper(helperName)
@@ -120,20 +123,21 @@ class ComponentListService extends Service {
 				</head>
 				<body>
 						<h1 class="serverHeaer">这里是服务器环境头部</h1>
-						<ul id="modsWrap">
-						`;
-				let bottom = `</ul>
+						<ul id="modsWrap">`;
+			let bottom = `</ul>
 						<h1 class="serverFooter">这里是服务器环境底部</h1>`
-				let	jsFile =	`<script src="../modules/banner/src/components/modsList/banner/src/build/main.bundle.js"></script>`
-				let footer = `	</body>
+			let jsFile = `<script src="../modules/${req.title}/src/build/main.bundle.js"></script>`
+			let footer = `	</body>
 				</html>`;
 			const page = header + template + bottom + jsFile + footer;
 			// 生成完整的html页面
 			writeFile('app/public/page/' + `${req.title}.html`, page, 'utf-8');
-
-	 }); 			
-		}
-  }
+			
+		let url = `${req.title}.html`;
+		return { url, id };
+		console.log('url:', url);
+	}
+ 
 }
 
 module.exports = ComponentListService;
