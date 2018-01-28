@@ -23,25 +23,13 @@ module.exports = {
 
   db: {
     dir: path.resolve(__dirname, '../', 'app/db/'), // 本地开发、测试环境 json 数据目录
+     
   },
-
+  
   // 模板文件
   tplFile: {
     dir: path.resolve(__dirname, '../', 'app/public/modules/'),
   },
-
-
-  // 配置插件
-/*   view: {
-    defaultViewEngine: 'nunjucks',
-    defaultExtension: '.nj',
-    mapping: {
-      '.nj': 'nunjucks',
-    },
-    root: [
-      path.join(__dirname, '../', 'app/view'), 
-    ].join(',')
-  }, */
 
   view: {
     defaultViewEngine: 'handlebars',

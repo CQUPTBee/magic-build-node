@@ -4,6 +4,7 @@
   "description": "node",
   "private": true,
   "dependencies": {
+    "cdn": "^1.1.1",
     "egg": "^2.0.0",
     "egg-scripts": "^2.1.0",
     "egg-view-handlebars": "^2.0.0",
@@ -11,6 +12,8 @@
     "fs-extra": "^5.0.0",
     "git-clone": "^0.1.0",
     "handlebars": "^4.0.11",
+    "mongodb": "^3.0.1",
+    "mongoose": "^5.0.1",
     "uuid": "^3.1.0",
     "zepto": "^1.2.0"
   },

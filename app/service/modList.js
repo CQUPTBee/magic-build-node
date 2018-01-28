@@ -7,14 +7,12 @@ const fs = require('fs');
 const fse = require('fs-extra')
 const path = require('path');
 const clone = require('git-clone');
-
+const Mod = require('../db/modSchema.js');
+const Page =require('../db/pageSchema.js');
+const cdn = require('cdn');
 
 class modListService extends Service {
   async render (req) {
-    let id = uuidv1();
-    console.log('id:', id);
-    console.log('---------------req----------');
-    console.log(req);
 
      // 获取模板coding地址
     let repoUrl = req.repository.ssh_url;
@@ -25,10 +23,97 @@ class modListService extends Service {
     clone(repoUrl, targetPath, res => {
       console.log('clone res')
       // 新clone的模板数组
-      let repoFolder = fs.readdirSync('app/public/repo/mods/src/components/modsList/');
+      let repoPath = 'app/public/repo/mods/src/components/modsList/';
+      let repoFolder = fs.readdirSync(repoPath);
       console.log('新clone的模板数组repoFolder:  ', repoFolder);
+
+      // 遍历package.json,判断模板是否存在
+      repoFolder.forEach((val, index) => {
+        let fPath = path.resolve(repoPath + val); 
+        console.log('fpth: ', fPath);
+        let stats = fs.statSync(fPath);
+        // 判断是否是文件夹
+        if (stats.isDirectory()) {
+          // 读取json文件
+          let pkgFile = fs.readFileSync(repoPath + `${val}` + '/package.json', 'utf-8');
+          console.log('pkgFile:', typeof pkgFile);
+          console.log('pkgFile.name: ', JSON.parse(pkgFile).name);
+          let pkgData = JSON.parse(pkgFile);
+          // 读取默认数据  cdn
+          let tplAddress = fPath + '/src/build';
+
+          // cdn
+          let localAddress = fs.readFileSync(fPath + '/src/build/local.json', 'utf-8');
+          console.log('localAddress: ', localAddress);
+          let modData = fs.readFileSync(fPath + '/src/build/data.json', 'utf-8');
+          console.log('modData: ', modData);
+         
+          // 在集合中查询模块名
+          Mod.find({
+            tplName: pkgData.name
+          },(err, res) => {
+            if(err){
+              console.log('tplName err:', err);
+              return;
+            } 
+            // 查询结果为空
+            if (res == ''){ 
+              // 发送数据和local.json到cdn
+
+              // 新建数据模型
+              let newMod = Mod({
+                tplName: pkgData.name,
+                tplVersion: pkgData.version,
+                tplAddress: tplAddress,
+                localAddress: localAddress,
+                data: modData
+              });
+              console.log('newMod: ', newMod);
+              Mod.create(newMod, (err, res) => {
+                if(err) {
+                  console.log('tplName creat err: ', err);
+                  return;
+                }
+                console.log('tplName creat res: ', res)
+              });
+            } else {
+              Mod.find({
+                tplVersion: pkgData.version
+              }, (err, res) => {
+                if(err) {
+                  console.log('tplVersion err ', err);
+                  return;
+                }
+                if (res == '') {
+                  // 发送数据和local.json到cdn
+                  let newMod =new Mod({
+                    tplName: pkgData.name,
+                    tplVersion: pkgData.version,
+                    tplAdress: adressData,
+                    data: modData
+                  });
+                  console.log('newMod: ', newMod);
+                  Mod.create(newMod, (err, res) => {
+                    if (err) {
+                      console.log('tplVersion creat err: ', err);
+                      return;
+                    }
+                    console.log('tplVersion creat res: ', res)
+                  });
+                }else {
+                  console.log('tplVersion 已经存在');
+                  return;
+                }               
+              })                          
+            }             
+          })
+
+        } 
+       return;       
+      })
+      
       // 已经存在的模板数组
-      let modFolder = fs.readdirSync('app/public/modules');
+      /* let modFolder = fs.readdirSync('app/public/modules/');
       console.log('已经存在的模板数组modFolder:', modFolder);
       // 遍历数组判断模板是否以及存在
       repoFolder.forEach((val, index) => {
@@ -38,7 +123,7 @@ class modListService extends Service {
           console.log('模板已存在') 
           return;
         } else {
-          console.log('app/public/repo/mods/src/components/modsList/${val}', 'app/public/repo//mods/src/components/modsList/' + `${val}`);
+          console.log('app/public/repo/mods/src/components/modsList/${val}', 'app/public/repo/mods/src/components/modsList/' + `${val}`);
           // 模板不存在，创建val文件夹
           let newVal = 'app/public/modules/' + `${val}`;
           fs.mkdirSync(newVal);
@@ -50,42 +135,16 @@ class modListService extends Service {
             return
           })
           .catch((err) => {
+            this.ctx.logger;
             console.log('err:\n', err)
           })
         }
           
          // fse.removeSync('app/public/repo/' + `${val}`);
 
-      })
-
-
-      // // 提取模板代码
-      // fse.copy('app/public/repo/mods/src/components/modsList/', 'app/public/repo/')
-      // .then(() => {
-      //   console.log('copy success!');
-      //   // 删除多余的文件
-      //   fse.removeSync('app/public/repo/mods');
-        
-        
-      // })
-      // .catch((err ) => {
-      //   console.log('err:', err);
-      // })
-
-      
+      }) */
     })
     
-
-    // if (modFolder.includes(`${req.title}`)){
-    //   console.log('')
-    // }
-    // else {
-
-    //   // 生成模板文件夹
-    //   let folder = fs.mkdirSync('app/public/modules/' + `${req.title}`);
-    //   console.log('folder:', folder);
-      
-    // }
   }
 }
 
