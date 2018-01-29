@@ -29,7 +29,7 @@ class modListService extends Service {
 
       // 遍历package.json,判断模板是否存在
       repoFolder.forEach((val, index) => {
-        let fPath = path.resolve(repoPath + val); 
+        let fPath = repoPath + val; 
         console.log('fpth: ', fPath);
         let stats = fs.statSync(fPath);
         // 判断是否是文件夹
@@ -44,9 +44,7 @@ class modListService extends Service {
 
           // cdn
           let localAddress = fs.readFileSync(fPath + '/src/build/local.json', 'utf-8');
-          console.log('localAddress: ', localAddress);
           let modData = fs.readFileSync(fPath + '/src/build/data.json', 'utf-8');
-          console.log('modData: ', modData);
          
           // 在集合中查询模块名
           Mod.find({
@@ -89,7 +87,7 @@ class modListService extends Service {
                   let newMod =new Mod({
                     tplName: pkgData.name,
                     tplVersion: pkgData.version,
-                    tplAdress: adressData,
+                    tplAddress: tplAddress,
                     data: modData
                   });
                   console.log('newMod: ', newMod);

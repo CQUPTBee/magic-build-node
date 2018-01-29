@@ -20,6 +20,7 @@ class ComponentListService extends Service {
 	 * 
 	 */
   async create(req) {
+		
 		const id = uuidv1();
 		// 将获取的数据存为json文件
 		console.log('req:',typeof req);
@@ -50,18 +51,18 @@ class ComponentListService extends Service {
 		let newPage = new Page({
 			documentId: id,
 			documentTitle: req.globalData.documentTitle,
-			documentUrl: `${req.globalData.documentTitle + id}.html`,
+			documentUrl: `${req.globalData.documentTitle}.html`,
 			tplName: tplName,
 			documentData: tpl
 		});
 		console.log('newPage: ', newPage);
-		// Page.create(newPage, (err, res) => {
-		// 	if (err) {
-		// 		console.log('page create err: ', err);
-		// 		return;
-		// 	}
-		// 	console.log('插入成功');
-		// })
+		Page.create(newPage, (err, res) => {
+			if (err) {
+				console.log('page create err: ', err);
+				return;
+			}
+			console.log('插入成功');
+		})
 
 		// 模板的文档片数组
 		let doc = [],
@@ -83,8 +84,8 @@ class ComponentListService extends Service {
 				console.log('res.tplAddress: ', res[0].tplAddress+'/index.hbs');
 				console.log('tpl[index].data', tpl[index].data);
 				let banner = fs.readFileSync(res[0].tplAddress + '/index.hbs', 'utf-8'),
-						mainJs = `<script src="${res[0].tplAddress}/main.bundle.js"></script>`,
-						data = tpl[index].data,
+						mainJs = `<script src="../repo/mods/src/components/modsList/${val}/src/build/main.bundle.js"></script>`,
+						data = tpl[index].tplData,
 						template = Handlebars.compile(banner),
 						templateTpl = template(data);
 						doc[index] =  templateTpl;
@@ -141,15 +142,15 @@ class ComponentListService extends Service {
 								</html>`;
 						const page = header + docs + bottom + jsFiles + footer;
 						// 生成完整的html页面
-						writeFile('app/public/page/' + `${newPage.documentUrl}.html`, page, 'utf-8');
+						writeFile('app/public/page/' + newPage.documentUrl, page, 'utf-8');
 					})
 
 		})
-		ctx.logger.info('some request data: %j', ctx.request.body);
-		ctx.logger.error(new Error('whoops'));
+		this.ctx.logger.info('some request data: %j', this.ctx.request.body);
+		this.ctx.logger.error();
 
-		
-		return newPage.documentUrl;
+		let url = newPage.documentUrl;
+		return {url, id};
 		
 	/* 	// 获取模板和默认数据路径
 		let modFile = path.resolve(this.config.tplFile.dir, '', `${req.title}` + '/src/build/index.hbs')

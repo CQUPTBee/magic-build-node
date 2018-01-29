@@ -12,8 +12,7 @@ module.exports = {
   security: {
     csrf: false,
   },
-  // add your config here
-  middleware: [],
+
 
   // 改变jsonwenjianneicun大小
   bodyParser: {
@@ -31,19 +30,19 @@ module.exports = {
     dir: path.resolve(__dirname, '../', 'app/public/modules/'),
   },
 
-  view: {
-    defaultViewEngine: 'handlebars',
-    defaultExtension: '.hbs',
-    mapping: {
-      '.hbs': 'handlebars',
-    },
-  },
+  // view: {
+  //   defaultViewEngine: 'handlebars',
+  //   defaultExtension: '.hbs',
+  //   mapping: {
+  //     '.hbs': 'handlebars',
+  //   },
+  // },
 
   // 模板引擎
-  handlebars: {
-    data: true,
-    compat: true,
-    knownHelpersOnly: false,
-    partialsPath: path.join(__dirname, '../', 'app/view/partials'),
-  }
+  // handlebars: {
+  //   data: true,
+  //   compat: true,
+  //   knownHelpersOnly: false,
+  //   partialsPath: path.join(__dirname, '../', 'app/view/partials'),
+  // }
 };

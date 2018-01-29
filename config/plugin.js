@@ -9,8 +9,8 @@ module.exports = {
   //   package: 'egg-view-nunjucks',
   // },
 
-  handlebars: {
-    enable: true,
-    package: 'egg-view-handlebars',
-  }
+  // handlebars: {
+  //   enable: true,
+  //   package: 'egg-view-handlebars',
+  // }
 };
