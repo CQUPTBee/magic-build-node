@@ -82,6 +82,7 @@ class modListService extends Service {
                   console.log('tplVersion err ', err);
                   return;
                 }
+                console.log('res: ', res);
                 if (res == '') {
                   // 发送数据和local.json到cdn
                   let newMod =new Mod({

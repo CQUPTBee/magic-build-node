@@ -141,8 +141,18 @@ class ComponentListService extends Service {
 						let footer = `	</body>
 								</html>`;
 						const page = header + docs + bottom + jsFiles + footer;
+						console.log(page)
 						// 生成完整的html页面
-						writeFile('app/public/page/' + newPage.documentUrl, page, 'utf-8');
+						const pageUrl = this.config.baseDir + '/app/public/page/'
+						console.log('pageUrl: ', pageUrl);
+						fs.writeFile(pageUrl + newPage.documentUrl, page, 'utf-8', (err) => {
+							if(err) {
+								throw err;
+								console.log('err')
+								return;
+							}
+							console.log('123')
+						});
 					})
 
 		})
