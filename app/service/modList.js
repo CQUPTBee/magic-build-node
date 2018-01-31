@@ -25,7 +25,7 @@ class modListService extends Service {
       // 新clone的模板数组
       let repoPath = 'app/public/repo/mods/src/components/modsList/';
       let repoFolder = fs.readdirSync(repoPath);
-      console.log('新clone的模板数组repoFolder:  ', repoFolder);
+      console.log('新clone的模板数组repoFolder: ', repoFolder);
 
       // 遍历package.json,判断模板是否存在
       repoFolder.forEach((val, index) => {

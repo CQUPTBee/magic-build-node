@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const DB_URL = 'mongodb://localhost:27017/nodeBuild';
+const DB_URL = 'mongodb://139.199.90.238:27018/nodeBuild';
 
 /**
  * 连接

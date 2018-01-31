@@ -9,8 +9,13 @@ module.exports = {
   // use for cookie sign key, should change to your own and keep security
   keys: pkg.name + '_1512030452306_1643',
 
+  // static : true,
+
   security: {
-    csrf: false,
+    // csrf: {
+    //   headerName: 'x-csrf-token', 
+    // },
+    csrf: false
   },
 
 

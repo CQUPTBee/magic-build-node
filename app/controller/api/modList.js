@@ -10,6 +10,13 @@ class ModList extends BaseController {
     } = this;
     const req = Object.assign(ctx.request.body);
     const res = await service.modList.render(req);
+    // console.log('ctx', ctx);
+    // console.log('csrf', ctx.cookies);
+    // ctx.cookies.set('_csrf', ctx._csrf, {
+    //   httpOnly: true, 
+    //   encrypt: true, 
+    // });
+    // ctx.rotateCsrfSecret();
     this.success();
   }
 }
