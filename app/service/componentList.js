@@ -145,7 +145,7 @@ class ComponentListService extends Service {
 						// 生成完整的html页面
 						const pageUrl = this.config.baseDir + '/app/public/page/'
 						console.log('pageUrl: ', pageUrl);
-						fs.writeFile(pageUrl + newPage.documentUrl, page, 'utf-8', (err) => {
+						fs.writeFile(pageUrl + newPage.documentId + '.html', page, 'utf-8', (err) => {
 							if(err) {
 								throw err;
 								console.log('err')
@@ -159,7 +159,7 @@ class ComponentListService extends Service {
 		this.ctx.logger.info('some request data: %j', this.ctx.request.body);
 		this.ctx.logger.error();
 
-		let url = newPage.documentUrl;
+		let url = newPage.documentId + '.html';
 		return {url, id};
 		
 	/* 	// 获取模板和默认数据路径
