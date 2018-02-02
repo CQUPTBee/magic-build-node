@@ -2,5 +2,6 @@
 // code状态码
 module.exports = {
   SUCCESS: 1, // 成功
-  FAILD: 0
+  FAILD: 0,
+  UNLOGIN: -1
 };

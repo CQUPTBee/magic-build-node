@@ -14,13 +14,21 @@ class BaseController extends Controller {
     this.ctx.body = {
       code: CODE.SUCCESS,
       msg: 'success',
-      data,
+      data, 
     };
+  }
+
+  unLogin(msg) {
+    this.ctx.body = {
+      code: CODE.UNLOGIN,
+      msg: msg,
+    }
   }
 
   notFound(msg) {
     msg = msg || 'not found';
-    this.ctx.throw(404, msg);
+    this.ctx.throw(404, CODE.FAILD);
+    this.ctx.body = msg;
   }
 }
 module.exports = BaseController;

@@ -17,7 +17,11 @@ class ModList extends BaseController {
     //   encrypt: true, 
     // });
     // ctx.rotateCsrfSecret();
-    this.success();
+    if(res == 0) {
+      this.notFound(res);
+      return;
+    }
+    this.success(res);
   }
 }
 
