@@ -25,6 +25,16 @@ class ComponentListService extends Service {
 		// 将获取的数据存为json文件
 		console.log('req:',typeof req);
 		// 获取req中的属性名
+		let pro = Object.getOwnPropertyNames(req.globalData);
+		console.log('pro', pro);
+		console.log('pro[0]', pro[0]);
+		// 判断请求是否存在页面id字段
+		if (!pro.includes('documentId')) {
+			console.log('sssss: ', pro[0].includes('documentId'))
+			console.log('页面id不存在');
+			return 0;
+		}
+		// 获取页面id
 		let docId = req.globalData.documentId;
 		console.log('pro', docId);
 		// 判断请求是否存在页面id
@@ -82,7 +92,7 @@ class ComponentListService extends Service {
 				docs = '',
 			jsFiles = '';
 		console.log('typeof tplName: ', typeof tplName);
-		tplName.forEach((val, index) => {
+		await tplName.forEach((val, index) => {
 			Mod.find({
 				tplName: val
 			}, (err, res) => {
@@ -112,7 +122,6 @@ class ComponentListService extends Service {
 					console.log("----------------------")
 					console.log('doc:', docs);
 					console.log('js:', jsFiles);
-
 					// 组装公共头部
 					let header = `
 						<!DOCTYPE html>
@@ -159,21 +168,20 @@ class ComponentListService extends Service {
 					const pageUrl = this.config.baseDir + '/app/public/page/'
 					console.log('pageUrl: ', pageUrl);
 					fs.writeFile(pageUrl + newPage.documentId + '.html', page, 'utf-8', (err) => {
-						if(err) {
-							throw err;
-							console.log('err')
-							return;
-						}
-						console.log('123')
-					});
-				})
-			
+					if (err) {
+						throw err;
+						console.log('err')
+						return;
+					}
+					console.log('123')
+				});
+			})
 		})
-		
 		this.ctx.logger.info('some request data: %j', this.ctx.request.body);
 		this.ctx.logger.error();
 		let url = '139.199.90.238:7001/public/page/' + newPage.documentId + '.html';
 		return { url, id };
+		
 	}
  
 }

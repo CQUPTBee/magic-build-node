@@ -18,7 +18,7 @@ class ComponentListController extends BaseController {
     const res = await service.componentList.create(req);
     console.log('service-res', res);
     if(res == 0){
-      this.notFound;
+      this.notFound(res);
       return;
     }
     this.success(res);
