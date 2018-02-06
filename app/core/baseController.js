@@ -11,6 +11,7 @@ class BaseController extends Controller {
   // }
 
   success(data) {
+    console.log('成功！')
     this.ctx.body = {
       code: CODE.SUCCESS,
       msg: 'success',
@@ -19,6 +20,7 @@ class BaseController extends Controller {
   }
 
   unLogin(msg) {
+    console.log('未登录！')    
     this.ctx.body = {
       code: CODE.UNLOGIN,
       msg: msg,

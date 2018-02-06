@@ -10,7 +10,6 @@ module.exports = appInfo => {
       dir: '/logs/magicBuild/',
       consoleLevel: 'DEBUG',
       appLogName: `${appInfo.name}-web.log`,
-      coreLogName: 'egg-web.log',
       agentLogName: 'egg-agent.log',
       errorLogName: 'common-error.log',
     },

@@ -11,7 +11,7 @@ let pageSchema = new Schema({
     type: String,
     default: ''
   },
-  tplName: {
+  tplId: {
     type: Array
   },
   documentData: {

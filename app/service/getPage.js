@@ -8,16 +8,26 @@ const Page = require('../db/pageSchema.js');
 
 class getPageService extends Service {
   async get(id) {
-    
-    return Page.find({
-      documentId: id
-    }, (err, res) => {
-      if(err) {
-        console.log('查询失败：\n', err);
-        return;
-      }
-      console.log('res: ', res);
+    let newPage = new Page({
+      
     })
+    let promise = new Promise((resolve, reject) => {
+      Page.find({
+        documentId: id
+      }, (err, res) => {
+        if (err) {
+          console.log('查询失败：\n', err);
+          return 0;
+        }
+        console.log('res: ', res);
+        resolve(res)
+      })
+    })
+    promise.then((val) => {
+      console.log('val--------------', val);
+      
+    })
+    return promise; 
   }
 }
 

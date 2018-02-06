@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
  * @description 定义数据模式
  */
 const modSchema = new Schema({
+  tplId: String,
+  proId: String,
   tplName: String,
   tplVersion: {
     type: String,
